@@ -1,0 +1,12 @@
+<button type="button" class="btn btn-default">Sorting by: <strong ng-bind="orderBy"></strong>
+</button>
+<div class="btn-group" role="group">
+    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"
+            aria-haspopup="true" aria-expanded="false">
+        <span class="caret"></span>
+    </button>
+    <ul class="dropdown-menu">
+        <li ng-class="{ 'active': orderBy === 'title' }"><a ng-click="$parent.orderBy='title'">Title</a></li>
+        <li ng-class="{ 'active': orderBy === 'date' }"><a ng-click="$parent.orderBy='date'">Date</a></li>
+    </ul>
+</div>

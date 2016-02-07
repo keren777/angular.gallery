@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>My Gallery</title>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="./vendor/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="./styles/style.css">
+    <link rel="stylesheet" type="text/css" href="./app/modules/gallery/styles/gallery.css">
+    <link rel="stylesheet" type="text/css" href="./app/modules/gallery/styles/slides.css">
+</head>
+<body>
+    <div ng-app="app">
+        <my-gallery path="'./app/modules/gallery/'"
+                    feed="'./data/images.json'"
+                    search="true"
+                    pagination="true"
+                    results-per-page="4"
+                    sorting="true"
+                    slideshow = "2"> </my-gallery>
+
+    </div>
+
+    <!-- js:vendors -->
+    <script src="./vendor/jquery/dist/jquery.min.js"></script>
+    <script src="./vendor/bootstrap/dist/js/bootstrap.min.js"></script>
+    <!--<script src="./vendor/angular/angular.min.js"></script>-->
+    <!--<script src="./vendor/angular-animate/angular-animate.min.js"></script>-->
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.0/angular.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.0/angular-animate.js"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/gsap/1.10.3/TweenMax.min.js"></script>
+
+    <!-- js:app -->
+    <script src="./app/modules/gallery/gallery.js"></script>
+    <script src="./app/init.js"></script>
+</body>
+</html>

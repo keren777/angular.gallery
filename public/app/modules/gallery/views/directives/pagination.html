@@ -1,0 +1,4 @@
+<div ng-repeat="pageItem in pagesArr track by $index" class="btn-group" role="group">
+    <button ng-click="setPage(pageItem)" type="button" class="btn btn-default"
+            ng-class="{ 'active': $index == page-1 }"><strong ng-bind="pageItem"></strong></button>
+</div>

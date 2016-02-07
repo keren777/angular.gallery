@@ -1,0 +1,12 @@
+node_modules
+app/bower_components
+dist
+.tmp
+.sass-cache
+app/components
+# Ignore all files in .idea folder
+.idea/
+/.idea/*
+
+.DS_Store
+app/.DS_Store
