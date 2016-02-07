@@ -50,48 +50,37 @@
         };
 
 
-        /* for slides */
-
-        $scope.closeModal = function () {
-            //angular.element('#openImage').modal('hide');
-        };
-
-        $scope.direction = 'left';
-        $scope.currentIndex = 0;
-
-        $scope.setCurrentSlideIndex = function (index) {
-            $scope.direction = (index > $scope.currentIndex) ? 'left' : 'right';
-            $scope.currentIndex = index;
-        };
-
-        $scope.isCurrentSlideIndex = function (index) {
-            return $scope.currentIndex === index;
-        };
-
-        $scope.prevSlide = function () {
-            $scope.direction = 'left';
-            $scope.currentIndex = ($scope.currentIndex < $scope.images.length - 1) ? ++$scope.currentIndex : 0;
-        };
-
-        $scope.nextSlide = function () {
-            $scope.direction = 'right';
-            $scope.currentIndex = ($scope.currentIndex > 0) ? --$scope.currentIndex : $scope.images.length - 1;
-        };
-        /**************/
-
-        $scope.openImage = function (image) {
+        $scope.openSlideshow = function (image) {
             angular.element('#openImage').modal('show');
             $scope.image = image;
             $scope.openModal = true;
-            $scope.imageSlideshow = $scope.getSlideShowImage(image);
+            $scope.direction = 'left';
+            $scope.currentIndex = $scope.filteredImages.indexOf(image);
+
+            $scope.setCurrentSlideIndex = function (index) {
+                $scope.direction = (index > $scope.currentIndex) ? 'left' : 'right';
+                $scope.currentIndex = index;
+            };
+
+            $scope.isCurrentSlideIndex = function (index) {
+                return $scope.currentIndex === index;
+            };
+
+            $scope.prevSlide = function () {
+                $scope.direction = 'left';
+                $scope.currentIndex = ($scope.currentIndex < $scope.images.length - 1) ? ++$scope.currentIndex : 0;
+            };
+
+            $scope.nextSlide = function () {
+                $scope.direction = 'right';
+                $scope.currentIndex = ($scope.currentIndex > 0) ? --$scope.currentIndex : $scope.images.length - 1;
+            };
+
+            $interval(function(){
+                $scope.nextSlide();
+            }, $scope.slideshow * 1000);
         };
 
-        //angular.element('#openImage').on('hidden.bs.modal', function () {
-        //    $timeout(function () {
-        //        $interval.cancel(intervalPromise);
-        //        $scope.openModal = false;
-        //    });
-        //});
 
         $scope.isImageRemoved = function (image) {
             var removedImages = sessionStorage.get("removedImages") || [];
@@ -110,40 +99,6 @@
 
         $scope.clearSlideShow = function () {
             $scope.imagesSlideshow = [];
-        };
-
-        $scope.getSlideShowImage = function (image) {
-            var startIndex = 0;
-
-            for (var i = 0; i < $scope.filteredImages.length; i++) {
-                if (!$scope.isImageRemoved(image.url) && $scope.filteredImages[i].url == image.url) {
-                    startIndex = i;
-                }
-            }
-
-            var j = startIndex;
-
-            if ($scope.openModal && !$scope.isImageRemoved(image)) {
-                $timeout(function () {
-                    $scope.imageSlideshow = $scope.filteredImages[j];
-                });
-            }
-
-            intervalPromise = $interval(function () {
-                if ($scope.openModal) {
-                    if (j > $scope.filteredImages.length) {
-                        j = 0;
-                    }
-                    if (!$scope.isImageRemoved($scope.filteredImages[j])) {
-                        $scope.imageSlideshow = $scope.filteredImages[j];
-                    }
-                    j++;
-                } else {
-                    j = startIndex;
-                    $interval.cancel(intervalPromise);
-                }
-
-            }, $scope.slideshow * 1000);
         };
     };
 
@@ -177,7 +132,6 @@
                 });
             },
             controller: galleryCtrl,
-            animation: galleryAnimate,
             templateUrl: function (tElement, tAttrs) {
                 return tAttrs.path.replace(/'/g, '') + "views/gallery.html";
             }
@@ -189,8 +143,6 @@
             restrict: 'A',
             link: function (scope, element, attrs) {
                 var config = galleryService.getConfigData();
-
-                // temporary hard-coded (plan to get from config variable)
                 var modulePath = "./app/modules/gallery/";
 
                 function emptyImage() {
@@ -257,49 +209,14 @@
     };
 
 
-
-    var galleryAnimate = function(){
-        return {
-            beforeAddClass: function (element, className, done) {
-                var scope = element.scope();
-
-                if (className == 'ng-hide') {
-                    var finishPoint = element.parent().width();
-                    if(scope.direction !== 'right') {
-                        finishPoint = -finishPoint;
-                    }
-                    TweenMax.to(element, 0.5, {left: finishPoint, onComplete: done });
-                }
-                else {
-                    done();
-                }
-            },
-            removeClass: function (element, className, done) {
-                var scope = element.scope();
-
-                if (className == 'ng-hide') {
-                    element.removeClass('ng-hide');
-
-                    var startPoint = element.parent().width();
-                    if(scope.direction === 'right') {
-                        startPoint = -startPoint;
-                    }
-
-                    TweenMax.fromTo(element, 0.5, { left: startPoint }, {left: 0, onComplete: done });
-                }
-                else {
-                    done();
-                }
-            }
-        };
-    }
-
     var module = angular.module('gallery', []);
     module.directive('myGallery', galleryDirective);
     module.directive('modal', function(){return {restrict: 'E', templateUrl: 'app/modules/gallery/views/directives/modal.html'}});
+    module.directive('pageResults', function(){return {restrict: 'E', templateUrl: 'app/modules/gallery/views/directives/pageResults.html'}});
     module.directive('searchbox', function(){return {restrict: 'E', templateUrl: 'app/modules/gallery/views/directives/searchbox.html'}});
-    module.directive('pagination', function(){return {restrict: 'E', templateUrl: 'app/modules/gallery/views/directives/pagination.html'}});
     module.directive('sorting', function(){return {restrict: 'E', templateUrl: 'app/modules/gallery/views/directives/sorting.html'}});
+    module.directive('imageThumb', function(){return {restrict: 'E', templateUrl: 'app/modules/gallery/views/directives/imageThumb.html'}});
+    module.directive('pagination', function(){return {restrict: 'E', templateUrl: 'app/modules/gallery/views/directives/pagination.html'}});
     module.directive('galleryImage', galleryImageDirective);
     module.service('galleryService', galleryService);
     module.service('sessionStorage', sessionStorageService);

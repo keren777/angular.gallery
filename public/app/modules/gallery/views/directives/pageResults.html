@@ -1,0 +1,16 @@
+<button type="button" class="btn btn-default">Results on page: <strong ng-bind="resultsOnPage"></strong>
+</button>
+<div class="btn-group" role="group">
+    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"
+            aria-haspopup="true" aria-expanded="false">
+        <span class="caret"></span>
+    </button>
+    <ul class="dropdown-menu" ng-init="resultsVarients = [1,5,10,15,20]">
+        <li ng-repeat="resultsCount in resultsVarients track by $index"
+            ng-class="{ 'active': resultsOnPage === resultsCount }">
+            <a ng-click="setResultsOnPage(resultsCount)">
+                <span ng-bind="resultsCount"></span> results per page
+            </a>
+        </li>
+    </ul>
+</div>

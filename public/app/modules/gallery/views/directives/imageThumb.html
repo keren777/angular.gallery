@@ -1,0 +1,16 @@
+<div ng-repeat="image in filteredImages = (images | filter:searchImage | orderBy:orderBy) track by $index"
+     ng-if="isAllowToShowImage($index, image);" class="col-lg-3 col-md-4 col-xs-6 col-centered thumb">
+    <div class="holder">
+        <button class="btn btn-sm btn-danger" ng-click="removeImage(image)">
+            <span class="glyphicon glyphicon-remove" title="Remove"></span>
+        </button>
+        <span class="date" ng-bind="image.date | parseDateStrFilter | date: 'MM/dd/yyyy - hh:mm'"></span>
+    </div>
+    <span class="thumbnail">
+        <a class="image-wrapper" ng-click="openSlideshow(image)">
+            <img gallery-image ng-src="{{ image.url }}" class="img-responsive" title="{{image.title}}"
+                 alt="{{image.title}}">
+        </a>
+        <p class="title" ng-click="openSlideshow(image)" ng-bind="image.title" title="{{image.title}}"></p>
+    </span>
+</div>
