@@ -1,8 +1,8 @@
-<div class="galleryModule container">
+<div class="galleryModule container" ng-controller="galleryCtrl">
     <modal />
     <div class="row page-header">
         <div>
-            <button class="btn btn-sm" ng-click="openSlideshow(images[0])">
+            <button class="btn btn-sm" ng-click="openSlideshow(images[0], true)">
                 <strong>Slideshow</strong></span>
             </button>
         </div>
@@ -27,7 +27,7 @@
 
     <!-- Images -->
     <div class="row row-centered">
-        <image-thumb />
+        <gallery-image />
     </div>
 
     <!-- Images: Not found -->

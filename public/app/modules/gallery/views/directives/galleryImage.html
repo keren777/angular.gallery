@@ -7,7 +7,7 @@
         <span class="date" ng-bind="image.date | parseDateStrFilter | date: 'MM/dd/yyyy - hh:mm'"></span>
     </div>
     <span class="thumbnail">
-        <a class="image-wrapper" ng-click="openSlideshow(image)">
+        <a class="image-wrapper" ng-click="openSlideshow(image, false)">
             <img gallery-image ng-src="{{ image.url }}" class="img-responsive" title="{{image.title}}"
                  alt="{{image.title}}">
         </a>
